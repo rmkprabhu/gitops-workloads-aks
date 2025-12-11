@@ -13,7 +13,7 @@ spec:
       - path: "teams/*.yaml"
   template:
     metadata:
-      name: "{{ .path.basenameNormalized }}"
+      name: "{{ .path.filename }}"
       labels:
         team: "{{ .team }}"
     spec:
@@ -22,6 +22,10 @@ spec:
         repoURL: "{{ .repoURL }}"
         targetRevision: "{{ .targetRevision }}"
         path: "{{ .path }}"
+        helm:
+          releaseName: "{{ .team }}"
+          valueFiles:
+          - "{{ .valuesFile }}"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{ .namespace }}"
