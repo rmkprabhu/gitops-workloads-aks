@@ -1,10 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: team-workloads-apps
+  name: team-workloads
   namespace: argocd
 spec:
   goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
       repoURL: https://github.com/rmkprabhu/gitops-workloads-aks
@@ -13,25 +14,30 @@ spec:
       - path: "teams/*.yaml"
   template:
     metadata:
-      name: '{{.path.basenameNormalized}}-app'
+      name: '{{ .path.basenameNormalized }}'
+      labels:
+        team: '{{ .team }}'
     spec:
       project: default
       source:
-        repoURL: '{{ index . "repoURL" }}'
-        targetRevision: '{{ index . "branch" }}'
-        path: '{{ index . "path" }}'
-        {{- if index . "helmChart" }}
+        repoURL: '{{ .repoURL }}'
+        targetRevision: '{{ .targetRevision }}'
+        path: '{{ .path }}'
+        {{- if .helmChart }}
         helm:
-          chart: '{{ index . "helmChart" }}'
-          {{- if index . "version" }}
-          version: '{{ index . "version" }}'
+          releaseName: '{{ .helmChart }}'
+          {{- if .valuesFile }}
+          valueFiles:
+          - '{{ .valuesFile }}'
           {{- end }}
-        {{- else }}
-        directory: {}
+          {{- if .helmValues }}
+          values: |
+{{ .helmValues | indent 12 }}
+          {{- end }}
         {{- end }}
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{ index . "namespace" }}'
+        namespace: '{{ .namespace }}'
       syncPolicy:
         automated:
           prune: true
