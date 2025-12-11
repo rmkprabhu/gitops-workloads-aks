@@ -1,0 +1,6 @@
+repoURL: https://github.com/rmkprabhu/gitops-bridge-workloads-demo
+path: gitops-bridge-workloads-demo
+branch: main
+namespace: team-2-application
+helmChart: my-app  # Required for Helm mode
+# version: "1.0.0"  # Optional
