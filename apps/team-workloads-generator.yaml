@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: team-workloads-generator
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+  - git:
+      repoURL: https://github.com/rmkprabhu/gitops-workloads-aks
+      revision: main
+      files:
+      - path: "teams/*.yaml"
+  template:
+    metadata:
+      name: '{{path.basename}}-generator'
+    spec:
+      project: default
+      source:
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{branch}}'
+        path: '{{path}}'
+        helm:
+          valueFiles:
+          - values-production.yaml  # Optional
+          {{- if .helmChart }}
+          chart: {{helmChart}}
+          {{- if .version }}
+          version: {{version}}
+          {{- end }}
+          {{- end }}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
