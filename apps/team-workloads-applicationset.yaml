@@ -5,7 +5,6 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
       repoURL: https://github.com/rmkprabhu/gitops-workloads-aks
@@ -14,30 +13,18 @@ spec:
       - path: "teams/*.yaml"
   template:
     metadata:
-      name: '{{ .path.basenameNormalized }}'
+      name: "{{ .path.basenameNormalized }}"
       labels:
-        team: '{{ .team }}'
+        team: "{{ .team }}"
     spec:
       project: default
       source:
-        repoURL: '{{ .repoURL }}'
-        targetRevision: '{{ .targetRevision }}'
-        path: '{{ .path }}'
-        {{- if .helmChart }}
-        helm:
-          releaseName: '{{ .helmChart }}'
-          {{- if .valuesFile }}
-          valueFiles:
-          - '{{ .valuesFile }}'
-          {{- end }}
-          {{- if .helmValues }}
-          values: |
-{{ .helmValues | indent 12 }}
-          {{- end }}
-        {{- end }}
+        repoURL: "{{ .repoURL }}"
+        targetRevision: "{{ .targetRevision }}"
+        path: "{{ .path }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{ .namespace }}'
+        namespace: "{{ .namespace }}"
       syncPolicy:
         automated:
           prune: true
