@@ -21,7 +21,7 @@ spec:
       source:
         repoURL: "{{ .repoURL }}"
         targetRevision: "{{ .targetRevision }}"
-        path: "{{ .path }}"
+        path: "{{ index . "path" }}"
         helm:
           releaseName: "{{ .team }}"
           valueFiles:
