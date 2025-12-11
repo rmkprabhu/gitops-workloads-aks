@@ -13,25 +13,25 @@ spec:
       - path: "teams/*.yaml"
   template:
     metadata:
-      name: '{{.path.basenameNormalized}}'
+      name: '{{.path.basenameNormalized}}-app'
     spec:
       project: default
       source:
-        repoURL: '{{.repoURL}}'
-        targetRevision: '{{.branch}}'
-        path: '{{.path}}'
-        {{- if .helmChart }}
+        repoURL: '{{ index . "repoURL" }}'
+        targetRevision: '{{ index . "branch" }}'
+        path: '{{ index . "path" }}'
+        {{- if index . "helmChart" }}
         helm:
-          chart: '{{.helmChart}}'
-          {{- if .version }}
-          version: '{{.version}}'
+          chart: '{{ index . "helmChart" }}'
+          {{- if index . "version" }}
+          version: '{{ index . "version" }}'
           {{- end }}
         {{- else }}
         directory: {}
         {{- end }}
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{.namespace}}'
+        namespace: '{{ index . "namespace" }}'
       syncPolicy:
         automated:
           prune: true
