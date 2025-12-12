@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: direct-workloads
+  name: workloads-appset-generator
   namespace: argocd
 spec:
   goTemplate: true
@@ -15,12 +15,12 @@ spec:
         namespace: team1-workloads
         valuesFile: values.yaml
       # Add more teams here as needed
-      # - team: team2
-      #   repoURL: https://github.com/rmkprabhu/gitops-bridge-workloads-demo
-      #   targetRevision: main
-      #   path: gitops-bridge-workloads-demo
-      #   namespace: team2-workloads
-      #   valuesFile: values-team2.yaml
+      - team: team2
+        repoURL: https://github.com/argoproj/argocd-example-apps
+        targetRevision: master
+        path: helm-guestbook
+        namespace: team2-workloads
+        valuesFile: values.yaml
   template:
     metadata:
       name: '{{ .team }}-workload'
