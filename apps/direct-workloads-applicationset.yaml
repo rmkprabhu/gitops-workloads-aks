@@ -14,12 +14,19 @@ spec:
         path: gitops-bridge-workloads-demo
         namespace: team1-workloads
         valuesFile: values.yaml
-      # Add more teams here as needed
+      # Team 2 - ArgoCD Example Guestbook
       - team: team2
         repoURL: https://github.com/argoproj/argocd-example-apps
         targetRevision: master
         path: helm-guestbook
         namespace: team2-workloads
+        valuesFile: values.yaml
+      # Team 3 - Demo2 Redis Application
+      - team: team3
+        repoURL: https://github.com/rmkprabhu/gitops-bridge-workloads-demo-2
+        targetRevision: main
+        path: demo2
+        namespace: team3-workloads
         valuesFile: values.yaml
   template:
     metadata:
