@@ -13,7 +13,7 @@ spec:
       - path: "teams/*.yaml"
   template:
     metadata:
-      name: "{{ .path.filename }}"
+      name: "{{ .team }}"
       labels:
         team: "{{ .team }}"
     spec:
@@ -23,7 +23,7 @@ spec:
         targetRevision: "{{ .targetRevision }}"
         path: '{{ .path }}'
         helm:
-          releaseName: "{{ .team }}"
+          releaseName: '{{ .path }}'
           valueFiles:
           - "{{ .valuesFile }}"
       destination:
