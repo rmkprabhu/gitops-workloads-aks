@@ -1,7 +1,0 @@
-team: team2
-repoURL: https://github.com/rmkprabhu/gitops-bridge-workloads-demo
-targetRevision: main
-path: gitops-bridge-workloads-demo
-namespace: team2-workloads
-helmChart: my-app
-valuesFile: values.yaml
