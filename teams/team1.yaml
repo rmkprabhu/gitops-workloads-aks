@@ -1,6 +1,6 @@
 team: team1
 repoURL: https://github.com/rmkprabhu/gitops-bridge-workloads-demo
-targetRevision: main
+targetRevision: mains
 path: gitops-bridge-workloads-demo
 namespace: team1-workloads
 helmChart: my-app
