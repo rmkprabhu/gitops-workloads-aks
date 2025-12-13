@@ -22,12 +22,12 @@ spec:
         namespace: team2-workloads
         valuesFile: values.yaml
       # Team 3 - Demo2 Redis Application
-      - team: team3
-        repoURL: https://github.com/rmkprabhu/gitops-bridge-workloads-demo-2
-        targetRevision: main
-        path: demo2
-        namespace: team3-workloads
-        valuesFile: values.yaml
+      # - team: team3
+      #   repoURL: https://github.com/rmkprabhu/gitops-bridge-workloads-demo-2
+      #   targetRevision: main
+      #   path: demo2
+      #   namespace: team3-workloads
+      #   valuesFile: values.yaml
   template:
     metadata:
       name: '{{ .team }}-workload'
